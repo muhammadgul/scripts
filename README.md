@@ -1,7 +1,7 @@
 # scripts
->> The script uses two files "RPC name mapping" and "Current, Voltage" as input
->> Ask expert to provide these files and make sure in the script it has same name
->> Uses Python3.6 in Anaconda 
+>> The script uses two files "RPC name mapping" and "Current, Voltage" as input \\
+>> Ask expert to provide these files and make sure in the script it has same name \\
+>> Uses Python3.6 in Anaconda \\
 >> In case of Miniconda, you need to install
 >> Install miniconda, https://conda.io/miniconda.html
 >> Update conda by, conda update -n base conda (If needed)
