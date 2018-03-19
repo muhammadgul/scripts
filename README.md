@@ -9,6 +9,8 @@
    conda install pandas/numpy/matplotlib/xlrd/mesa-libgl-cos6-x86\_64
 >> For pdflatex, export the path in bash, while in sh, use setenv
    export PATH="/afs/cern.ch/sw/XML/texlive/latest/bin/i386-linux:$PATH"
+>> Clone the analyzer,
+   git clone https://github.com/muhammadgul/scripts.git
 >> For full CMS RPCs, run, 
    ./run_full_cms_rpc.sh
 >> For a specific Ring/Wheel, use,
