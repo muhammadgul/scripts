@@ -76,7 +76,7 @@ sec_plot_name = ''
 avg_plot_name = ''
 no_sheets=0
 for sheet2_idx in range(0,sheet2_no_row-1):
-#for sheet2_idx in range(0,2):
+#for sheet2_idx in range(0,8):
 #  print('Scanning for ',args.w_r_name)
   for row_idx in range(0, sheet1_no_row-1):# Iterate through rows
 #  for row_idx in range(0, 3000):# Iterate through rows
@@ -255,20 +255,65 @@ fig = plt_wheel.gcf()
 #plt_wheel.show()
 plt_wheel.close()
 fig.savefig(outdir+'/'+args.w_r_name+'_avg.pdf')
-#----------------- fit data of Sep------------------
-v_fit = [*map(mean, zip(*vapp_avg4))]
-v_fit1= v_fit[:6]
-v_fit2= v_fit[6:]
-i_fit = [*map(mean, zip(*imon_avg4))]
-i_fit1= i_fit[:6]# ohmic current is here
-if len(v_fit)!=0:
-  z = np.polyfit(v_fit1, i_fit1, 1)# make fit for first part < 7000 V
-  f = np.poly1d(z)# find the corresponding polynomial
-  i_fit2 = f(v_fit2)# find the extrapolated ohmic current
-  i_fit_final = np.concatenate((i_fit1, i_fit2), axis = 0)#make final list of ohmic initial and final extrapolated current
+#----------------- fit data of Sep-16------------------
+v_fit_1 = [*map(mean, zip(*vapp_avg1))]
+v_fit1_1= v_fit_1[:6]
+v_fit2_1= v_fit_1[6:]
+i_fit_1 = [*map(mean, zip(*imon_avg1))]
+i_fit1_1= i_fit_1[:6]# ohmic current is here
+if len(v_fit_1)!=0:
+  z1 = np.polyfit(v_fit1_1, i_fit1_1, 1)# make fit for first part < 7000 V
+  f1 = np.poly1d(z1)# find the corresponding polynomial
+  i_fit2_1 = f1(v_fit2_1)# find the extrapolated ohmic current
+  i_fit_final_1 = np.concatenate((i_fit1_1, i_fit2_1), axis = 0)#make final list of ohmic initial and final extrapolated current
+  plt_fit.plot(v_fit_1, i_fit_final_1,'.',v_fit_1,f1(v_fit_1),color = 'red')
+  plt_fit.scatter([*map(mean, zip(*vapp_avg1))], [*map(mean, zip(*imon_avg1))], color = 'red', label = "Sep-16",marker='o')
 
-  plt_fit.plot(v_fit, i_fit_final,'.',v_fit,f(v_fit),color = 'red')
-  plt_fit.scatter([*map(mean, zip(*vapp_avg4))], [*map(mean, zip(*imon_avg4))], color = 'green', label = "Oct-17",marker='o')
+#----------------- fit data of April-17------------------
+v_fit_2 = [*map(mean, zip(*vapp_avg2))]
+v_fit1_2= v_fit_2[:6]
+v_fit2_2= v_fit_2[6:]
+i_fit_2 = [*map(mean, zip(*imon_avg2))]
+i_fit1_2= i_fit_2[:6]# ohmic current is here
+if len(v_fit_2)!=0:
+  z2 = np.polyfit(v_fit1_2, i_fit1_2, 1)# make fit for first part < 7000 V
+  f2 = np.poly1d(z2)# find the corresponding polynomial
+  i_fit2_2 = f2(v_fit2_2)# find the extrapolated ohmic current
+  i_fit_final_2 = np.concatenate((i_fit1_2, i_fit2_2), axis = 0)#make final list of ohmic initial and final extrapolated current
+  plt_fit.plot(v_fit_2, i_fit_final_2,'.',v_fit_2,f2(v_fit_2),color = 'blue')
+  plt_fit.scatter([*map(mean, zip(*vapp_avg2))], [*map(mean, zip(*imon_avg2))], color = 'blue', label = "Apr-17",marker='o')
+
+#----------------- fit data of Jul-17------------------
+v_fit_3 = [*map(mean, zip(*vapp_avg3))]
+v_fit1_3= v_fit_3[:6]
+v_fit2_3= v_fit_3[6:]
+i_fit_3 = [*map(mean, zip(*imon_avg3))]
+i_fit1_3= i_fit_3[:6]# ohmic current is here
+if len(v_fit_3)!=0:
+  z3 = np.polyfit(v_fit1_3, i_fit1_3, 1)# make fit for first part < 7000 V
+  f3 = np.poly1d(z3)# find the corresponding polynomial
+  i_fit2_3 = f3(v_fit2_3)# find the extrapolated ohmic current
+  i_fit_final_3 = np.concatenate((i_fit1_3, i_fit2_3), axis = 0)#make final list of ohmic initial and final extrapolated current
+  plt_fit.plot(v_fit_3, i_fit_final_3,'.',v_fit_3,f3(v_fit_3),color = 'green')
+  plt_fit.scatter([*map(mean, zip(*vapp_avg3))], [*map(mean, zip(*imon_avg3))], color = 'green', label = "Apr-17",marker='o')
+
+#----------------- fit data of Oct-17------------------
+v_fit_4 = [*map(mean, zip(*vapp_avg4))]
+v_fit1_4= v_fit_4[:6]
+v_fit2_4= v_fit_4[6:]
+i_fit_4 = [*map(mean, zip(*imon_avg4))]
+i_fit1_4= i_fit_4[:6]# ohmic current is here
+if len(v_fit_4)!=0:
+  z4 = np.polyfit(v_fit1_4, i_fit1_4, 1)# make fit for first part < 7000 V
+  f4 = np.poly1d(z4)# find the corresponding polynomial
+  i_fit2_4 = f4(v_fit2_4)# find the extrapolated ohmic current
+  i_fit_final_4 = np.concatenate((i_fit1_4, i_fit2_4), axis = 0)#make final list of ohmic initial and final extrapolated current
+
+  plt_fit.plot(v_fit_4, i_fit_final_4,'.',v_fit_4,f4(v_fit_4),color = 'magenta')
+  plt_fit.scatter([*map(mean, zip(*vapp_avg4))], [*map(mean, zip(*imon_avg4))], color = 'magenta', label = "Oct-17",marker='o')
+
+
+
   plt_fit.ticklabel_format(axis='x', style='sci', scilimits=(0,0))
   plt_fit.xlabel('Voltage (V)')
   plt_fit.ylabel('Current ($\mu$ A)')
