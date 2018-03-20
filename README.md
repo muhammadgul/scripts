@@ -1,11 +1,11 @@
-# Installation and running instructions for CMS RPC analyzer code
+# Installation packages and running instructions for CMS RPC analyzer code
 
 ```
 # Input files
 The script uses two files "RPC name mapping" and "Current, Voltage" as input 
 Ask expert to provide these files and make sure in the script it has same name 
 
-# Required packages
+# Required packages for PC or Virutual Machine
 Uses Python3.6 in Anaconda 
 In case of Miniconda,
 Install miniconda, https://conda.io/miniconda.html
@@ -20,11 +20,11 @@ export PATH="/afs/cern.ch/sw/XML/texlive/latest/bin/i386-linux:$PATH"
 # Clone the analyzer,
 git clone https://github.com/muhammadgul/scripts.git
 
+# For a specific Ring/Wheel, use,
+python3.6 working_atRing_level_script.py W+2_RB1
+
 # For full CMS RPCs, run, 
 ./run_full_cms_rpc.sh
-
-# For a specific Ring/Wheel, use,
-python3.6 working_atRing_level_script.py W+2_RB1 
 
 #The output will be written in chambersPlots directory and a combine pdf will be produced named as combine_plots.pdf 
 ```    
