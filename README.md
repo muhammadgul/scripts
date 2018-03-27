@@ -11,6 +11,8 @@ In case of Miniconda,
 Install miniconda, https://conda.io/miniconda.html
 Update conda by, conda update -n base conda (If needed)
 
+# Open a new terminal to take into account the changes
+
 # Install pandas or numpy or matplotlib or xlrd or  mesa-libgl-cos6-x86_64 by, 
 conda install pandas, numpy ,matplotlib, xlrd/mesa-libgl-cos6-x86_64
 

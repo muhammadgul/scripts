@@ -10,6 +10,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import matplotlib.pyplot as plt_wheel
 import matplotlib.pyplot as plt_fit
+import matplotlib.pyplot as plt_delta
 import numpy as np
 from statistics import mean
 from itertools import repeat
@@ -76,7 +77,7 @@ sec_plot_name = ''
 avg_plot_name = ''
 no_sheets=0
 for sheet2_idx in range(0,sheet2_no_row-1):
-#for sheet2_idx in range(0,8):
+#for sheet2_idx in range(0,80):
 #  print('Scanning for ',args.w_r_name)
   for row_idx in range(0, sheet1_no_row-1):# Iterate through rows
 #  for row_idx in range(0, 3000):# Iterate through rows
@@ -256,6 +257,7 @@ fig = plt_wheel.gcf()
 plt_wheel.close()
 fig.savefig(outdir+'/'+args.w_r_name+'_avg.pdf')
 #----------------- fit data of Sep-16------------------
+i_fit_final_1 = []
 v_fit_1 = [*map(mean, zip(*vapp_avg1))]
 v_fit1_1= v_fit_1[:6]
 v_fit2_1= v_fit_1[6:]
@@ -268,8 +270,8 @@ if len(v_fit_1)!=0:
   i_fit_final_1 = np.concatenate((i_fit1_1, i_fit2_1), axis = 0)#make final list of ohmic initial and final extrapolated current
   plt_fit.plot(v_fit_1, i_fit_final_1,'.',v_fit_1,f1(v_fit_1),color = 'red')
   plt_fit.scatter([*map(mean, zip(*vapp_avg1))], [*map(mean, zip(*imon_avg1))], color = 'red', label = "Sep-16",marker='o')
-
 #----------------- fit data of April-17------------------
+i_fit_final_2 = []
 v_fit_2 = [*map(mean, zip(*vapp_avg2))]
 v_fit1_2= v_fit_2[:6]
 v_fit2_2= v_fit_2[6:]
@@ -284,6 +286,7 @@ if len(v_fit_2)!=0:
   plt_fit.scatter([*map(mean, zip(*vapp_avg2))], [*map(mean, zip(*imon_avg2))], color = 'blue', label = "Apr-17",marker='o')
 
 #----------------- fit data of Jul-17------------------
+i_fit_final_3 = []
 v_fit_3 = [*map(mean, zip(*vapp_avg3))]
 v_fit1_3= v_fit_3[:6]
 v_fit2_3= v_fit_3[6:]
@@ -295,9 +298,10 @@ if len(v_fit_3)!=0:
   i_fit2_3 = f3(v_fit2_3)# find the extrapolated ohmic current
   i_fit_final_3 = np.concatenate((i_fit1_3, i_fit2_3), axis = 0)#make final list of ohmic initial and final extrapolated current
   plt_fit.plot(v_fit_3, i_fit_final_3,'.',v_fit_3,f3(v_fit_3),color = 'green')
-  plt_fit.scatter([*map(mean, zip(*vapp_avg3))], [*map(mean, zip(*imon_avg3))], color = 'green', label = "Apr-17",marker='o')
+  plt_fit.scatter([*map(mean, zip(*vapp_avg3))], [*map(mean, zip(*imon_avg3))], color = 'green', label = "Jul-17",marker='o')
 
 #----------------- fit data of Oct-17------------------
+i_fit_final_4 = []
 v_fit_4 = [*map(mean, zip(*vapp_avg4))]
 v_fit1_4= v_fit_4[:6]
 v_fit2_4= v_fit_4[6:]
@@ -327,6 +331,31 @@ if len(v_fit_4)!=0:
   plt_fit.close()
   fig_fit.savefig(outdir+'/'+args.w_r_name+'_fit.pdf')
 
+#-------------- Draw the delta(imax-imin) at 6kV and 9.5kV
+avg_delta_6kV_xaxis = ['Apr17-Sep16', 'Jul17-Apr17', 'Oct17-Jul17']
+if len(i_fit_final_2)==0:
+  avg_delta_95kV_xaxis = ['Sep16','Jul17','Oct17' ]
+  i_avg_delta_6kV = [i_fit_final_3[5]-i_fit_final_1[5]]+[i_fit_final_4[5]-i_fit_final_3[5]]+[0]# add [0] to make the two list of same length for plotting
+  i_avg_delta_95kV = [i_fit_1[-1]-i_fit_final_1[-1]]+[i_fit_3[-1]-i_fit_final_3[-1]]+[i_fit_4[-1]-i_fit_final_4[-1]]
+else:
+  avg_delta_95kV_xaxis = ['Sep16','Apr17','Jul17','Oct17' ]
+  i_avg_delta_6kV = [i_fit_final_2[5]-i_fit_final_1[5]]+[i_fit_final_3[5]-i_fit_final_2[5]]+[i_fit_final_4[5]-i_fit_final_3[5]]+[0]
+  i_avg_delta_95kV = [i_fit_1[-1]-i_fit_final_1[-1]]+[i_fit_2[-1]-i_fit_final_2[-1]]+[i_fit_3[-1]-i_fit_final_3[-1]]+[i_fit_4[-1]-i_fit_final_4[-1]]
+
+plt_delta.scatter(avg_delta_95kV_xaxis, i_avg_delta_6kV,color = 'red', label = "$\Delta I (Ohmic)$",marker='o')
+plt_delta.scatter(avg_delta_95kV_xaxis, i_avg_delta_95kV,color = 'green', label = "$\Delta I (Cosmic)$",marker='o')
+
+#plt_delta.ticklabel_format(axis='x', style='sci', scilimits=(0,0))
+plt_delta.xlabel('Condition')
+plt_delta.ylabel('$\Delta I ($\mu$ A)')
+plt_delta.title(args.w_r_name+" Current differenc")
+plt_delta.grid()
+plt_delta.draw()
+plt_delta.legend()
+plt_delta.legend(bbox_to_anchor=(0.01, 0.99), loc=2, borderaxespad=0.)
+fig_delta = plt_fit.gcf()
+plt_delta.close()
+fig_delta.savefig(outdir+'/'+args.w_r_name+'_delta.pdf')
 #----------------------------
 files_renamed = []
 for a in os.listdir(outdir):
@@ -366,9 +395,7 @@ os.system("pdflatex --shell-escape combine_plots.tex")
 os.system("bibtex combine_plots.aux")
 os.system("pdflatex --shell-escape combine_plots.tex")
 os.system("pdflatex --shell-escape combine_plots.tex")
-#os.system("rm combine_plots1*")
-# Make a cross check by hand for some of them and compare with the automatic script output
-# to check for a possible bug
+
 ########################################################### following lines are for testing
 v1 = [3000,4000,5000,6000, 7000,8000,8500,9000,9100,9200,9300,9400,9500,9600,9700]
 
