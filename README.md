@@ -5,7 +5,28 @@
 The script uses two files "RPC name mapping" and "Current, Voltage" as input 
 Ask expert to provide these files and make sure in the script it has same name 
 
+# Set miniconda and latex path
+ export PATH="/afs/cern.ch/user/m/mgul/miniconda3/bin:$PATH"
+ export PATH="/afs/cern.ch/sw/XML/texlive/latest/bin/i386-linux:$PATH"
+
+# Clone the analyzer,
+ git clone https://github.com/muhammadgul/scripts.git
+
+# For a specific Ring/Wheel, use,
+ python working_atRing_level_script.py W+2_RB1
+
+# For full CMS RPCs, run, 
+./run_full_cms_rpc.sh
+
+#The output will be written in chambersPlots directory and a combine pdf will be produced named as combine_plots.pdf 
+
+# Possible error can occur if you have extra paths set in .bashrc file
+```    
+
+
 # Required packages for PC or Virutual Machine
+
+```
 Uses Python3.6 in Anaconda 
 In case of Miniconda,
 Install miniconda, https://conda.io/miniconda.html
