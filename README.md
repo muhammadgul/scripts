@@ -24,7 +24,7 @@ Ask expert to provide these files and make sure in the script it has same name
 ```    
 
 
-# Required packages for PC or Virutual Machine
+# (Optional) Required packages for PC or Virutual Machine
 
 ```
 Uses Python3.6 in Anaconda 
@@ -52,7 +52,7 @@ python3.6 working_atRing_level_script.py W+2_RB1
 #The output will be written in chambersPlots directory and a combine pdf will be produced named as combine_plots.pdf 
 ```    
 
-# If you are interested to use lxplus Virtual Machine, follow the following procedure.
+# (Optional) If you are interested to use lxplus Virtual Machine, follow the following procedure.
 #--------------VM activation-------------
 ``` 
 https://openstack.cern.ch/project/
