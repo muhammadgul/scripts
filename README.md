@@ -12,10 +12,16 @@ Ask expert to provide these files and make sure in the script it has same name
 # Clone the analyzer,
  git clone https://github.com/muhammadgul/scripts.git
 
-# For a specific Ring/Wheel, use,
+# (Expert only, works only on my local machine) combine xlsx files:
+ python combine_excel_files.py
+
+# For a specific Ring/Wheel, with 2016 data use,
  python working_atRing_level_script.py W+2_RB1
 
-# For full CMS RPCs, run, 
+# For a specific Ring/Wheel, with 2016 data use,
+ python working_atRing_level_script_2018data.py W+2_RB1
+
+# For full CMS RPCs, run (only 2018data), 
 ./run_full_cms_rpc.sh
 
 #The output will be written in chambersPlots directory and a combine pdf will be produced named as combine_plots.pdf 
