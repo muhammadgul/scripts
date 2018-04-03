@@ -18,7 +18,7 @@ Ask expert to provide these files and make sure in the script it has same name
 # For a specific Ring/Wheel, with 2016 data use,
  python working_atRing_level_script.py W+2_RB1
 
-# For a specific Ring/Wheel, with 2016 data use,
+# For a specific Ring/Wheel, with 2018 data use,
  python working_atRing_level_script_2018data.py W+2_RB1
 
 # For full CMS RPCs, run (only 2018data), 
