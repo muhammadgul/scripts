@@ -6,7 +6,7 @@ The script uses two files "RPC name mapping" and "Current, Voltage" as input
 Ask expert to provide these files and make sure in the script it has same name 
 
 # Set miniconda and latex path
- export PATH="/afs/cern.ch/user/m/mgul/miniconda3/bin:$PATH"
+ export PATH="/afs/cern.ch/work/m/mgul/public/rpc_2018_analysis/miniconda3/bin:$PATH"
  export PATH="/afs/cern.ch/sw/XML/texlive/latest/bin/i386-linux:$PATH"
 
 # Clone the analyzer,
