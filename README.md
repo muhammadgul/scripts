@@ -15,14 +15,20 @@ Ask expert to provide these files and make sure in the script it has same name
 # (Expert only, works only on my local machine) combine xlsx files:
  python combine_excel_files.py
 
-# For a specific Ring/Wheel, with 2016 data use,
+# Generalized for maximum four data sets:
+ python working_atRing_level_script_general.py W+2_RB1 rpc_2018_HV_Imon.xlsx Copy_of_RPC_Chamber_HV_Map.xlsx 14-SEP-16 04-APR-17 24-JUL-17 27-OCT-17
+
+# If you want to less than four, just non that date but then the difference will not be calculated, like:
+ python working_atRing_level_script_general.py W+2_RB1 rpc_2018_HV_Imon.xlsx Copy_of_RPC_Chamber_HV_Map.xlsx non 04-APR-17 24-JUL-17 27-OCT-17
+
+# For full CMS RPCs, run ,
+ ./run_full_cms_rpc.sh rpc_2018_HV_Imon.xlsx Copy_of_RPC_Chamber_HV_Map.xlsx 14-SEP-16 04-APR-17 24-JUL-17 27-OCT-17
+
+# (old, not necessary) For a specific Ring/Wheel, with 2016 data use,
  python working_atRing_level_script.py W+2_RB1
 
-# For a specific Ring/Wheel, with 2018 data use,
+# (old, not necessary)For a specific Ring/Wheel, with 2018 data use,
  python working_atRing_level_script_2018data.py W+2_RB1
-
-# For full CMS RPCs, run (only 2018data), 
-./run_full_cms_rpc.sh
 
 #The output will be written in chambersPlots directory and a combine pdf will be produced named as combine_plots.pdf 
 
