@@ -174,7 +174,7 @@ for sheet2_idx in range(0,sheet2_no_row-1):
   fig = plt.gcf()
 ##  plt.show()
   plt.close()
-  fig.savefig(outdir+'/'+rpc_names[sheet2_idx]+'.pdf')
+  fig.savefig(outdir+'/'+rpc_names[sheet2_idx]+'.png')
   del voltage1[:]
   del voltage2[:]
   del voltage3[:]
@@ -267,7 +267,7 @@ plt_wheel.legend(bbox_to_anchor=(0.01, 0.99), loc=2, borderaxespad=0.)
 fig = plt_wheel.gcf()
 #plt_wheel.show()
 plt_wheel.close()
-fig.savefig(outdir+'/'+args.w_r_name+'_avg.pdf')
+fig.savefig(outdir+'/'+args.w_r_name+'_avg.png')
 #----------------- fit data of Mar-18------------------
 i_fit_final_1 = []
 v_fit_1 = [*map(mean, zip(*vapp_avg1))]
@@ -341,7 +341,7 @@ if len(v_fit_4)!=0:
   fig_fit = plt_fit.gcf()
   #plt_fit.show()
   plt_fit.close()
-  fig_fit.savefig(outdir+'/'+args.w_r_name+'_fit.pdf')
+  fig_fit.savefig(outdir+'/'+args.w_r_name+'_fit.png')
 
 #-------------- Draw the delta(imax-imin) at 6kV and 9.5kV
 avg_delta_6kV_xaxis = [args.first_date, args.second_date, args.third_date]
@@ -366,11 +366,11 @@ plt_delta.legend()
 plt_delta.legend(bbox_to_anchor=(0.01, 0.99), loc=2, borderaxespad=0.)
 fig_delta = plt_fit.gcf()
 plt_delta.close()
-fig_delta.savefig(outdir+'/'+args.w_r_name+'_delta.pdf')
+fig_delta.savefig(outdir+'/'+args.w_r_name+'_delta.png')
 #----------------------------
 files_renamed = []
 for a in os.listdir(outdir):
-  if a.endswith(".pdf"):
+  if a.endswith(".png"):
     new_name = a.replace("_","")
     new_name1 = new_name.replace("+","p")
     new_name2 = new_name1.replace("-","m")
@@ -390,7 +390,7 @@ outtex.write(r"\newpage"+"\n")
 outtex.write(r"\begin{python}"+"\n")
 outtex.write("import os"+"\n")
 outtex.write("directory = 'chambersPlots/'"+"\n")
-outtex.write("extension = '.pdf'"+"\n")
+outtex.write("extension = '.png'"+"\n")
 outtex.write("files = [file for file in os.listdir(directory) if file.lower().endswith(extension)]"+"\n")
 outtex.write("for file in files:"+"\n")
 outtex.write("  print (r'\\begin{figure}[H]')"+"\n")
