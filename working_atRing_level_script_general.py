@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt_fit
 import matplotlib.pyplot as plt_delta
 import numpy as np
 from statistics import mean
-from scipy.stats import linregress
+#from scipy.stats import linregress
 from itertools import repeat
 import xlrd
 from xlrd.sheet import ctype_text
