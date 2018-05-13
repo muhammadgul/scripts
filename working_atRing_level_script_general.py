@@ -13,6 +13,7 @@ import matplotlib.pyplot as plt_fit
 import matplotlib.pyplot as plt_delta
 import numpy as np
 from statistics import mean
+from scipy.stats import linregress
 from itertools import repeat
 import xlrd
 from xlrd.sheet import ctype_text
@@ -54,6 +55,11 @@ pylab.rcParams.update(params)
 from matplotlib.ticker import FuncFormatter
 def sci_notation(x, pos):
     return "${:.1f} \\times 10^{{6}}$".format(x / 1.e7)
+#=================Calculate slope from arrays
+def best_fit_slope(xs,ys):
+  m = (((mean(xs)*mean(ys)) - mean(xs*ys)) / ((mean(xs)**2) - mean(xs**2)))
+  return m
+
 MyFormatter = FuncFormatter(sci_notation)
 cwd = os.getcwd()
 outdir = 'chambersPlots'
@@ -82,8 +88,8 @@ sheet2_no_row = sheet2.nrows
 sec_plot_name = ''
 avg_plot_name = ''
 no_sheets=0
-for sheet2_idx in range(0,sheet2_no_row-1):
-#for sheet2_idx in range(0,80):
+#for sheet2_idx in range(0,sheet2_no_row-1):
+for sheet2_idx in range(0,80):# use this for testing
   print('Scanning for ',args.w_r_name)
   for row_idx in range(0, sheet1_no_row-1):# Iterate through rows
 #  for row_idx in range(0, 3000):# Iterate through rows
@@ -326,7 +332,7 @@ if len(v_fit_4)!=0:
 
   plt_fit.ticklabel_format(axis='x', style='sci', scilimits=(0,0))
   plt_fit.xlabel('Voltage (V)')
-  plt_fit.ylabel('Current ($\mu$ A)')
+  plt_fit.ylabel('Current ($\mu$A)')
   plt_fit.title(args.w_r_name+" linear fit")
   plt_fit.grid()
   plt_fit.draw()
@@ -341,19 +347,20 @@ if len(v_fit_4)!=0:
 avg_delta_6kV_xaxis = [args.first_date, args.second_date, args.third_date]
 if len(i_fit_final_2)==0:
   avg_delta_95kV_xaxis = [args.first_date, args.second_date, args.third_date ]
-  i_avg_delta_6kV = [i_fit_final_3[5]-i_fit_final_1[5]]+[i_fit_final_4[5]-i_fit_final_3[5]]+[0]# add [0] to make the two list of same length for plotting
   i_avg_delta_95kV = [i_fit_1[-1]-i_fit_final_1[-1]]+[i_fit_3[-1]-i_fit_final_3[-1]]+[i_fit_4[-1]-i_fit_final_4[-1]]
+  i_avg_6kV = [i_fit_final_1[5]]+[i_fit_final_2[5]]+[i_fit_final_3[5]]+[i_fit_final_4[5]]
 else:
   avg_delta_95kV_xaxis = [args.first_date, args.second_date, args.third_date, args.fourth_date ]
-  i_avg_delta_6kV = [i_fit_final_2[5]-i_fit_final_1[5]]+[i_fit_final_3[5]-i_fit_final_2[5]]+[i_fit_final_4[5]-i_fit_final_3[5]]+[0]
   i_avg_delta_95kV = [i_fit_1[-1]-i_fit_final_1[-1]]+[i_fit_2[-1]-i_fit_final_2[-1]]+[i_fit_3[-1]-i_fit_final_3[-1]]+[i_fit_4[-1]-i_fit_final_4[-1]]
-print('i_avg_delta_95kV:  ',i_avg_delta_95kV)
-plt_delta.scatter(avg_delta_95kV_xaxis, i_avg_delta_6kV,color = 'red', label = "$\Delta I (Ohmic)$",marker='o')
+  i_avg_6kV = [i_fit_final_1[5]]+[i_fit_final_2[5]]+[i_fit_final_3[5]]+[i_fit_final_4[5]]
+print ('v_fit_4:  ',v_fit_4)
+print ('i_avg_6kV:  ',i_avg_6kV)
+plt_delta.scatter(avg_delta_95kV_xaxis, i_avg_6kV,color = 'red', label = "I (Ohmic)",marker='o')
 plt_delta.scatter(avg_delta_95kV_xaxis, i_avg_delta_95kV,color = 'green', label = "$\Delta I (Cosmic)$",marker='o')
 
 #plt_delta.ticklabel_format(axis='x', style='sci', scilimits=(0,0))
 plt_delta.xlabel('Condition')
-plt_delta.ylabel('$\Delta I ($\mu$ A)')
+plt_delta.ylabel('I ($\mu$A)')
 plt_delta.title(args.w_r_name+" Current differenc")
 plt_delta.grid()
 plt_delta.draw()
@@ -401,7 +408,6 @@ os.system("pdflatex --shell-escape combine_plots.tex")
 os.system("bibtex combine_plots.aux")
 os.system("pdflatex --shell-escape combine_plots.tex")
 os.system("pdflatex --shell-escape combine_plots.tex")
-
 ########################################################### following lines are for testing
 v1 = [3000,4000,5000,6000, 7000,8000,8500,9000,9100,9200,9300,9400,9500,9600,9700]
 
