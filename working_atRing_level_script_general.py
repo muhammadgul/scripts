@@ -88,8 +88,8 @@ sheet2_no_row = sheet2.nrows
 sec_plot_name = ''
 avg_plot_name = ''
 no_sheets=0
-#for sheet2_idx in range(0,sheet2_no_row-1):
-for sheet2_idx in range(0,80):# use this for testing
+for sheet2_idx in range(0,sheet2_no_row-1):
+#for sheet2_idx in range(0,80):# use this for testing
   print('Scanning for ',args.w_r_name)
   for row_idx in range(0, sheet1_no_row-1):# Iterate through rows
 #  for row_idx in range(0, 3000):# Iterate through rows
@@ -353,8 +353,6 @@ else:
   avg_delta_95kV_xaxis = [args.first_date, args.second_date, args.third_date, args.fourth_date ]
   i_avg_delta_95kV = [i_fit_1[-1]-i_fit_final_1[-1]]+[i_fit_2[-1]-i_fit_final_2[-1]]+[i_fit_3[-1]-i_fit_final_3[-1]]+[i_fit_4[-1]-i_fit_final_4[-1]]
   i_avg_6kV = [i_fit_final_1[5]]+[i_fit_final_2[5]]+[i_fit_final_3[5]]+[i_fit_final_4[5]]
-print ('v_fit_4:  ',v_fit_4)
-print ('i_avg_6kV:  ',i_avg_6kV)
 plt_delta.scatter(avg_delta_95kV_xaxis, i_avg_6kV,color = 'red', label = "I (Ohmic)",marker='o')
 plt_delta.scatter(avg_delta_95kV_xaxis, i_avg_delta_95kV,color = 'green', label = "$\Delta I (Cosmic)$",marker='o')
 
