@@ -31,6 +31,8 @@ parser.add_argument("first_date", help="Input the date 1")
 parser.add_argument("second_date", help="Input the date 2")
 parser.add_argument("third_date", help="Input the date 3")
 parser.add_argument("fourth_date", help="Input the date 4")
+parser.add_argument("fifth_date", help="Input the date 5")
+parser.add_argument("sixth_date", help="Input the date 6")
 args = parser.parse_args()
 
 font = {'family' : 'monospace',
@@ -81,12 +83,13 @@ num_cols = sheet1.ncols
 dpid_idx=date_idx=start_date_idx=stop_date_idx=v_app_idx=avg_imon_idx=-444
 #for row_idx in range(0, sheet1.nrows):# Iterate through rows
 vapp_w2_1, vapp_w2_2, vapp_w2_3, vapp_w2_4, imon_w2_1, imon_w2_2, imon_w2_3, imon_w2_4 = ([] for i in range(8))
+vapp_w2_5, vapp_w2_6, imon_w2_5, imon_w2_6 = ([] for i in range(4))
 vapp1, vapp2, vapp3, vapp4, imon1, imon2, imon3, imon4 = ([] for i in range(8))
+vapp5, vapp6, imon5, imon6 = ([] for i in range(4))
 voltage1, voltage2, voltage3, voltage4, current1, current2, current3, current4 = ([] for i in range(8))
+voltage5, voltage6, current5, current6 = ([] for i in range(4))
 sheet1_no_row = sheet1.nrows
 sheet2_no_row = sheet2.nrows
-sec_plot_name = ''
-avg_plot_name = ''
 no_sheets=0
 for sheet2_idx in range(0,sheet2_no_row-1):
 #for sheet2_idx in range(0,80):# use this for testing
@@ -115,8 +118,6 @@ for sheet2_idx in range(0,sheet2_no_row-1):
 #    if new_dpid==rpc_names_id[sheet2_idx]: # compare sheet1 and sheet2 ids. For a single id, it will save the data. 
     if (args.w_r_name in rpc_names[sheet2_idx] and new_dpid==rpc_names_id[sheet2_idx]):
 #      print('args.w_r_name: %s rpc_names[sheet2_idx]: %s'%(args.w_r_name,rpc_names[sheet2_idx] ))
-      sec_plot_name = rpc_names[sheet2_idx]
-      avg_plot_name = rpc_names[sheet2_idx+1]
       if args.first_date in new_date:
         voltage1.append(new_vapp)
         current1.append(new_imon)
@@ -130,9 +131,20 @@ for sheet2_idx in range(0,sheet2_no_row-1):
         current3.append(new_imon) 
         vapp3.append(new_vapp), imon3.append(new_imon)
       if args.fourth_date in new_date:
+#        print("I am here 4th: ",args.fourth_date)
         voltage4.append(new_vapp)
         current4.append(new_imon) 
         vapp4.append(new_vapp), imon4.append(new_imon)
+      if args.fifth_date in new_date:
+#        print("I am here 5th: ",args.fifth_date)
+        voltage5.append(new_vapp)
+        current5.append(new_imon) 
+        vapp5.append(new_vapp), imon5.append(new_imon)
+      if args.sixth_date in new_date:
+#        print("I am here 6th: ",args.sixth_date)
+        voltage6.append(new_vapp)
+        current6.append(new_imon) 
+        vapp6.append(new_vapp), imon6.append(new_imon)
   vapp_w2_temp1=vapp1[:]
   imon_w2_temp1=imon1[:]
   vapp_w2_temp2=vapp2[:]
@@ -141,6 +153,11 @@ for sheet2_idx in range(0,sheet2_no_row-1):
   imon_w2_temp3=imon3[:]
   vapp_w2_temp4=vapp4[:]
   imon_w2_temp4=imon4[:]
+  vapp_w2_temp5=vapp5[:]
+  imon_w2_temp5=imon5[:]
+  vapp_w2_temp6=vapp6[:]
+  imon_w2_temp6=imon6[:]
+
   if len(vapp_w2_temp1) != 0:
     vapp_w2_1.append(vapp_w2_temp1)
     imon_w2_1.append(imon_w2_temp1)
@@ -153,7 +170,14 @@ for sheet2_idx in range(0,sheet2_no_row-1):
   if len(vapp_w2_temp4) != 0:
     vapp_w2_4.append(vapp_w2_temp4)
     imon_w2_4.append(imon_w2_temp4)
-  if len(voltage1)==0 and len(voltage2)==0 and len(voltage3)==0 and len(voltage4)==0 :
+  if len(vapp_w2_temp5) != 0:
+    vapp_w2_5.append(vapp_w2_temp5)
+    imon_w2_5.append(imon_w2_temp5)
+  if len(vapp_w2_temp6) != 0:
+    vapp_w2_6.append(vapp_w2_temp6)
+    imon_w2_6.append(imon_w2_temp6)
+
+  if len(voltage1)==0 and len(voltage2)==0 and len(voltage3)==0 and len(voltage4)==0 and len(voltage5)==0 and len(voltage6)==0  :
     continue
   if len(voltage1)!=0:
     plt.scatter(voltage1, current1,color = 'red', label = args.first_date,marker='o')
@@ -163,6 +187,11 @@ for sheet2_idx in range(0,sheet2_no_row-1):
     plt.scatter(voltage3, current3,color="green", label = args.third_date,marker='o')
   if len(voltage4)!=0:
     plt.scatter(voltage4, current4,color="magenta", label = args.fourth_date,marker='o')
+  if len(voltage5)!=0:
+    plt.scatter(voltage5, current5,color="cyan", label = args.fifth_date,marker='o')
+  if len(voltage6)!=0:
+    plt.scatter(voltage6, current6,color="orange", label = args.sixth_date,marker='o')
+
   plt.ticklabel_format(axis='x', style='sci', scilimits=(0,0))
   plt.xlabel('Voltage (V)')
   plt.ylabel('Current ($\mu$ A)')
@@ -179,21 +208,33 @@ for sheet2_idx in range(0,sheet2_no_row-1):
   del voltage2[:]
   del voltage3[:]
   del voltage4[:]
+  del voltage5[:]
+  del voltage6[:]
+
   del current1[:]
   del current2[:]
   del current3[:]
   del current4[:]
+  del current5[:]
+  del current6[:]
   
   del vapp1[:]
   del vapp2[:]
   del vapp3[:]
   del vapp4[:]
+  del vapp5[:]
+  del vapp6[:]
+
   del imon1[:]
   del imon2[:]
   del imon3[:]
   del imon4[:]
+  del imon5[:]
+  del imon6[:]
+
 # make all the lists within the main list with same length
 vapp_avg1, vapp_avg2, vapp_avg3, vapp_avg4, imon_avg1, imon_avg2, imon_avg3, imon_avg4  = ([] for i in range(8))
+vapp_avg5, vapp_avg6, imon_avg5, imon_avg6  = ([] for i in range(4))
 if len(vapp_w2_1) != 0:
   maxLen1 = max(map(len, vapp_w2_1))
   for row in vapp_w2_1:
@@ -245,6 +286,32 @@ if len(vapp_w2_4) != 0:
       zero_list = [0] * (maxLen4 - len(row) )
       row = zero_list + row
       imon_avg4.append(row) 
+
+if len(vapp_w2_5) != 0:
+  maxLen5 = max(map(len, vapp_w2_5))
+  for row in vapp_w2_5:
+    if len(row) <= maxLen5:
+      zero_list = [0] * (maxLen5 - len(row) )
+      row = zero_list + row
+      vapp_avg5.append(row) 
+  for row in imon_w2_5:
+    if len(row) <= maxLen5:
+      zero_list = [0] * (maxLen5 - len(row) )
+      row = zero_list + row
+      imon_avg5.append(row) 
+
+if len(vapp_w2_6) != 0:
+  maxLen6 = max(map(len, vapp_w2_6))
+  for row in vapp_w2_6:
+    if len(row) <= maxLen6:
+      zero_list = [0] * (maxLen6 - len(row) )
+      row = zero_list + row
+      vapp_avg6.append(row) 
+  for row in imon_w2_6:
+    if len(row) <= maxLen6:
+      zero_list = [0] * (maxLen6 - len(row) )
+      row = zero_list + row
+      imon_avg6.append(row) 
 ##################################################
 if len(vapp_avg1)!=0:
   plt_wheel.scatter([*map(mean, zip(*vapp_avg1))], [*map(mean, zip(*imon_avg1))], color = 'red', label = args.first_date,marker='o')
@@ -254,6 +321,12 @@ if len(vapp_avg3)!=0:
   plt_wheel.scatter([*map(mean, zip(*vapp_avg3))], [*map(mean, zip(*imon_avg3))], color = 'green', label = args.third_date,marker='o')
 if len(vapp_avg4)!=0:
   plt_wheel.scatter([*map(mean, zip(*vapp_avg4))], [*map(mean, zip(*imon_avg4))], color = 'magenta', label = args.fourth_date,marker='o')
+if len(vapp_avg5)!=0:
+  plt_wheel.scatter([*map(mean, zip(*vapp_avg5))], [*map(mean, zip(*imon_avg5))], color = 'cyan', label = args.fifth_date,marker='o')
+if len(vapp_avg6)!=0:
+  plt_wheel.scatter([*map(mean, zip(*vapp_avg6))], [*map(mean, zip(*imon_avg6))], color = 'orange', label = args.sixth_date,marker='o')
+
+
 
 plt_wheel.ticklabel_format(axis='x', style='sci', scilimits=(0,0))
 plt_wheel.xlabel('Voltage (V)')
@@ -268,7 +341,7 @@ fig = plt_wheel.gcf()
 #plt_wheel.show()
 plt_wheel.close()
 fig.savefig(outdir+'/'+args.w_r_name+'_avg.png')
-#----------------- fit data of Mar-18------------------
+#----------------- fit data of 1st date ------------------
 i_fit_final_1 = []
 v_fit_1 = [*map(mean, zip(*vapp_avg1))]
 v_fit1_1= v_fit_1[:6]
@@ -282,7 +355,7 @@ if len(v_fit_1)!=0:
   i_fit_final_1 = np.concatenate((i_fit1_1, i_fit2_1), axis = 0)#make final list of ohmic initial and final extrapolated current
   plt_fit.plot(v_fit_1, i_fit_final_1,'.',v_fit_1,f1(v_fit_1),color = 'red')
   plt_fit.scatter([*map(mean, zip(*vapp_avg1))], [*map(mean, zip(*imon_avg1))], color = 'red', label = args.first_date,marker='o')
-#----------------- fit data of April-17------------------
+#----------------- fit data of 2nd date ------------------
 i_fit_final_2 = []
 v_fit_2 = [*map(mean, zip(*vapp_avg2))]
 v_fit1_2= v_fit_2[:6]
@@ -297,7 +370,7 @@ if len(v_fit_2)!=0:
   plt_fit.plot(v_fit_2, i_fit_final_2,'.',v_fit_2,f2(v_fit_2),color = 'blue')
   plt_fit.scatter([*map(mean, zip(*vapp_avg2))], [*map(mean, zip(*imon_avg2))], color = 'blue', label = args.second_date,marker='o')
 
-#----------------- fit data of Jul-17------------------
+#----------------- fit data of 3rd date ------------------
 i_fit_final_3 = []
 v_fit_3 = [*map(mean, zip(*vapp_avg3))]
 v_fit1_3= v_fit_3[:6]
@@ -312,7 +385,7 @@ if len(v_fit_3)!=0:
   plt_fit.plot(v_fit_3, i_fit_final_3,'.',v_fit_3,f3(v_fit_3),color = 'green')
   plt_fit.scatter([*map(mean, zip(*vapp_avg3))], [*map(mean, zip(*imon_avg3))], color = 'green', label = args.third_date,marker='o')
 
-#----------------- fit data of Oct-17------------------
+#----------------- fit data of 4th date ------------------
 i_fit_final_4 = []
 v_fit_4 = [*map(mean, zip(*vapp_avg4))]
 v_fit1_4= v_fit_4[:6]
@@ -327,6 +400,39 @@ if len(v_fit_4)!=0:
 
   plt_fit.plot(v_fit_4, i_fit_final_4,'.',v_fit_4,f4(v_fit_4),color = 'magenta')
   plt_fit.scatter([*map(mean, zip(*vapp_avg4))], [*map(mean, zip(*imon_avg4))], color = 'magenta', label = args.fourth_date,marker='o')
+
+#----------------- fit data of 5th date ------------------
+i_fit_final_5 = []
+v_fit_5 = [*map(mean, zip(*vapp_avg5))]
+v_fit1_5= v_fit_5[:6]
+v_fit2_5= v_fit_5[6:]
+i_fit_5 = [*map(mean, zip(*imon_avg5))]
+i_fit1_5= i_fit_5[:6]# ohmic current is here
+if len(v_fit_5)!=0:
+  z5 = np.polyfit(v_fit1_5, i_fit1_5, 1)# make fit for first part < 7000 V
+  f5 = np.poly1d(z5)# find the corresponding polynomial
+  i_fit2_5 = f5(v_fit2_5)# find the extrapolated ohmic current
+  i_fit_final_5 = np.concatenate((i_fit1_5, i_fit2_5), axis = 0)#make final list of ohmic initial and final extrapolated current
+
+  plt_fit.plot(v_fit_5, i_fit_final_5,'.',v_fit_5,f5(v_fit_5),color = 'cyan')
+  plt_fit.scatter([*map(mean, zip(*vapp_avg5))], [*map(mean, zip(*imon_avg5))], color = 'cyan', label = args.fifth_date,marker='o')
+
+#----------------- fit data of 6th date ------------------
+i_fit_final_6 = []
+v_fit_6 = [*map(mean, zip(*vapp_avg6))]
+v_fit1_6= v_fit_6[:6]
+v_fit2_6= v_fit_6[6:]
+i_fit_6 = [*map(mean, zip(*imon_avg6))]
+i_fit1_6= i_fit_6[:6]# ohmic current is here
+if len(v_fit_6)!=0:
+  z6 = np.polyfit(v_fit1_6, i_fit1_6, 1)# make fit for first part < 7000 V
+  f6 = np.poly1d(z6)# find the corresponding polynomial
+  i_fit2_6 = f6(v_fit2_6)# find the extrapolated ohmic current
+  i_fit_final_6 = np.concatenate((i_fit1_6, i_fit2_6), axis = 0)#make final list of ohmic initial and final extrapolated current
+
+  plt_fit.plot(v_fit_6, i_fit_final_6,'.',v_fit_6,f6(v_fit_6),color = 'orange')
+  plt_fit.scatter([*map(mean, zip(*vapp_avg6))], [*map(mean, zip(*imon_avg6))], color = 'orange', label = args.sixth_date,marker='o')
+
 
 
 
@@ -344,21 +450,21 @@ if len(v_fit_4)!=0:
   fig_fit.savefig(outdir+'/'+args.w_r_name+'_fit.png')
 
 #-------------- Draw the delta(imax-imin) at 6kV and 9.5kV
-avg_delta_6kV_xaxis = [args.first_date, args.second_date, args.third_date]
-if len(i_fit_final_2)==0:
-  avg_delta_95kV_xaxis = [args.first_date, args.second_date, args.third_date ]
-  i_avg_delta_95kV = [i_fit_1[-1]-i_fit_final_1[-1]]+[i_fit_3[-1]-i_fit_final_3[-1]]+[i_fit_4[-1]-i_fit_final_4[-1]]
-  i_avg_6kV = [i_fit_final_1[5]]+[i_fit_final_2[5]]+[i_fit_final_3[5]]+[i_fit_final_4[5]]
-else:
-  avg_delta_95kV_xaxis = [args.first_date, args.second_date, args.third_date, args.fourth_date ]
-  i_avg_delta_95kV = [i_fit_1[-1]-i_fit_final_1[-1]]+[i_fit_2[-1]-i_fit_final_2[-1]]+[i_fit_3[-1]-i_fit_final_3[-1]]+[i_fit_4[-1]-i_fit_final_4[-1]]
-  i_avg_6kV = [i_fit_final_1[5]]+[i_fit_final_2[5]]+[i_fit_final_3[5]]+[i_fit_final_4[5]]
+#if len(i_fit_final_2)==0:
+#  avg_delta_95kV_xaxis = [args.first_date, args.second_date, args.third_date ]
+#  i_avg_delta_95kV = [i_fit_1[-1]-i_fit_final_1[-1]]+[i_fit_3[-1]-i_fit_final_3[-1]]+[i_fit_4[-1]-i_fit_final_4[-1]]
+#  i_avg_6kV = [i_fit_final_1[5]]+[i_fit_final_2[5]]+[i_fit_final_3[5]]+[i_fit_final_4[5]]
+#else:
+  avg_delta_95kV_xaxis = [args.first_date, args.second_date, args.third_date, args.fourth_date, args.fifth_date, args.sixth_date ]
+  i_avg_delta_95kV = [i_fit_1[-1]-i_fit_final_1[-1]]+[i_fit_2[-1]-i_fit_final_2[-1]]+[i_fit_3[-1]-i_fit_final_3[-1]]+[i_fit_4[-1]-i_fit_final_4[-1]]+[i_fit_5[-1]-i_fit_final_5[-1]]+[i_fit_6[-1]-i_fit_final_6[-1]]
+  i_avg_6kV = [i_fit_final_1[5]]+[i_fit_final_2[5]]+[i_fit_final_3[5]]+[i_fit_final_4[5]]+[i_fit_final_5[5]]+[i_fit_final_6[5]]
 plt_delta.scatter(avg_delta_95kV_xaxis, i_avg_6kV,color = 'red', label = "I (Ohmic)",marker='o')
 plt_delta.scatter(avg_delta_95kV_xaxis, i_avg_delta_95kV,color = 'green', label = "$\Delta I (Cosmic)$",marker='o')
 
 #plt_delta.ticklabel_format(axis='x', style='sci', scilimits=(0,0))
 plt_delta.xlabel('Condition')
 plt_delta.ylabel('I ($\mu$A)')
+#plt_delta.title(avg_delta_95kV_xaxis,fontsize = 2)
 plt_delta.title(args.w_r_name+" Current differenc")
 plt_delta.grid()
 plt_delta.draw()
@@ -427,4 +533,5 @@ plt.scatter(v3, i3,color="green", label = "Jul-17")
 plt.scatter(v4, i4,color="magenta", label = "Oct-17")
 '''
 ############################################################
-#def 
+#def
+
