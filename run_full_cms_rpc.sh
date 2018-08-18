@@ -4,5 +4,5 @@ List=(W+2_RB1in W+2_RB2in W+2_RB3+ W+2_RB4+ W+1_RB1in W+1_RB2in W+1_RB3+ W+1_RB4
 for name in ${List[@]} 
 do
   echo "Scanning "$name 
-  python working_atRing_level_script_general.py $name $1 $2 $3 $4 $5 $6
+  python working_atRing_level_script_general.py $name $1 $2 $3 $4 $5 $6 $7 $8
 done
