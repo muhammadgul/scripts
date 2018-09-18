@@ -67,6 +67,9 @@ cwd = os.getcwd()
 outdir = 'chambersPlots'
 if not os.path.exists(outdir):
     os.makedirs(outdir)
+text_f_dir = 'avg_txt_files'
+if not os.path.exists(text_f_dir ):
+    os.makedirs(text_f_dir )
 Infile1 = args.HV_file
 Infile2 = args.mapping_file
 sheet1= xlrd.open_workbook(Infile1).sheet_by_name('Sheet1')
@@ -91,8 +94,8 @@ voltage5, voltage6, current5, current6 = ([] for i in range(4))
 sheet1_no_row = sheet1.nrows
 sheet2_no_row = sheet2.nrows
 no_sheets=0
-for sheet2_idx in range(0,sheet2_no_row-1):
-#for sheet2_idx in range(0,80):# use this for testing
+#for sheet2_idx in range(0,sheet2_no_row-1):
+for sheet2_idx in range(0,80):# use this for testing
   print('Scanning for ',args.w_r_name)
   for row_idx in range(0, sheet1_no_row-1):# Iterate through rows
 #  for row_idx in range(0, 3000):# Iterate through rows
@@ -313,19 +316,53 @@ if len(vapp_w2_6) != 0:
       row = zero_list + row
       imon_avg6.append(row) 
 ##################################################
+text_f = os.path.join(text_f_dir, args.w_r_name+'.txt')# open text file
+text_f1 = open(text_f, 'w') 
+headings = ['index', 'voltage', 'current']
+for i in range (len(headings)):
+  text_f1.write(headings[i]+'\t\t')
+#-----------------------
 if len(vapp_avg1)!=0:
   plt_wheel.scatter([*map(mean, zip(*vapp_avg1))], [*map(mean, zip(*imon_avg1))], color = 'red', label = args.first_date,marker='o')
+  avg_val_v1 = [*map(mean, zip(*vapp_avg1))]#use this list later to apply a loop
 if len(vapp_avg2)!=0:
   plt_wheel.scatter([*map(mean, zip(*vapp_avg2))], [*map(mean, zip(*imon_avg2))], color = 'blue', label = args.second_date,marker='o')
+  avg_val_v2 = [*map(mean, zip(*vapp_avg2))]
 if len(vapp_avg3)!=0:
   plt_wheel.scatter([*map(mean, zip(*vapp_avg3))], [*map(mean, zip(*imon_avg3))], color = 'green', label = args.third_date,marker='o')
+  avg_val_v3 = [*map(mean, zip(*vapp_avg3))]
 if len(vapp_avg4)!=0:
   plt_wheel.scatter([*map(mean, zip(*vapp_avg4))], [*map(mean, zip(*imon_avg4))], color = 'magenta', label = args.fourth_date,marker='o')
+  avg_val_v4 = [*map(mean, zip(*vapp_avg4))]
 if len(vapp_avg5)!=0:
   plt_wheel.scatter([*map(mean, zip(*vapp_avg5))], [*map(mean, zip(*imon_avg5))], color = 'cyan', label = args.fifth_date,marker='o')
+  avg_val_v5 = [*map(mean, zip(*vapp_avg5))]
 if len(vapp_avg6)!=0:
   plt_wheel.scatter([*map(mean, zip(*vapp_avg6))], [*map(mean, zip(*imon_avg6))], color = 'orange', label = args.sixth_date,marker='o')
+  avg_val_v6 = [*map(mean, zip(*vapp_avg6))]
 
+#--------------- write to the text file --------------#
+text_f1.write('\n'+str(args.first_date))
+for i in range (len(avg_val_v1)):
+  text_f1.write('\n%s\t\t%s\t\t%s' %(str(i), str(avg_val_v1[i]), str([*map(mean, zip(*imon_avg1))][i])))
+text_f1.write('\n'+str(args.second_date))
+for i in range (len(avg_val_v2)):
+  text_f1.write('\n%s\t\t%s\t\t%s' %(str(i), str(avg_val_v2[i]), str([*map(mean, zip(*imon_avg2))][i])))
+text_f1.write('\n'+str(args.third_date))
+for i in range (len(avg_val_v3)):
+  text_f1.write('\n%s\t\t%s\t\t%s' %(str(i), str(avg_val_v3[i]), str([*map(mean, zip(*imon_avg3))][i])))
+text_f1.write('\n'+str(args.fourth_date))
+for i in range (len(avg_val_v4)):
+  text_f1.write('\n%s\t\t%s\t\t%s' %(str(i), str(avg_val_v4[i]), str([*map(mean, zip(*imon_avg4))][i])))
+text_f1.write('\n'+str(args.fifth_date))
+for i in range (len(avg_val_v5)):
+  text_f1.write('\n%s\t\t%s\t\t%s' %(str(i), str(avg_val_v5[i]), str([*map(mean, zip(*imon_avg5))][i])))
+text_f1.write('\n'+str(args.sixth_date))
+for i in range (len(avg_val_v6)):
+  text_f1.write('\n%s\t\t%s\t\t%s' %(str(i), str(avg_val_v6[i]), str([*map(mean, zip(*imon_avg6))][i])))
+
+text_f1.close()
+#-------------------------------------------------------#
 
 
 plt_wheel.ticklabel_format(axis='x', style='sci', scilimits=(0,0))
@@ -482,7 +519,6 @@ for a in os.listdir(outdir):
     new_name2 = new_name1.replace("-","m")
     os.rename(outdir+"/"+a, outdir+"/"+new_name2)
     files_renamed.append(new_name2)
-
 outtex = open("combine_plots.tex", "w")
 outtex.write("\documentclass{article}"+"\n")
 outtex.write(r"\usepackage{python}"+"\n")
@@ -532,6 +568,7 @@ plt.scatter(v2, i2,color="blue", label = "Apr-17")
 plt.scatter(v3, i3,color="green", label = "Jul-17")
 plt.scatter(v4, i4,color="magenta", label = "Oct-17")
 '''
+
 ############################################################
 #def
 
