@@ -94,8 +94,8 @@ voltage5, voltage6, current5, current6 = ([] for i in range(4))
 sheet1_no_row = sheet1.nrows
 sheet2_no_row = sheet2.nrows
 no_sheets=0
-#for sheet2_idx in range(0,sheet2_no_row-1):
-for sheet2_idx in range(0,80):# use this for testing
+for sheet2_idx in range(0,sheet2_no_row-1):
+#for sheet2_idx in range(0,80):# use this for testing
   print('Scanning for ',args.w_r_name)
   for row_idx in range(0, sheet1_no_row-1):# Iterate through rows
 #  for row_idx in range(0, 3000):# Iterate through rows
